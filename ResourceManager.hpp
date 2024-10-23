@@ -5,26 +5,26 @@
 class ResourceManager
 {
 public:
-    ResourceManager(){
-        Resource newRes{};
-        myResource = newRes;
-    }
+    ResourceManager() : resource_{new Resource{}} {}
 
-    ResourceManager(const ResourceManager& other){
-        myResource = other.myResource;
-    }
+    ResourceManager(const ResourceManager& other): resource_{new Resource{*other.resource_}}{}
 
-    ~ResourceManager(){}
-
-    ResourceManager& operator=(const ResourceManager& other){
-        if (this == &other){return *this;}
-        myResource = other.myResource;
+    ResourceManager& operator=(const ResourceManager& other) {
+        if (this == &other) return *this;
+        delete resource_;
+        resource_ = new Resource{*other.resource_};
         return *this;
     }
 
-    double get(){ return myResource.get();}
+    ~ResourceManager() {
+        delete resource_;
+    }
 
-    Resource myResource;
+    double get() {
+        return resource_->get();
+    }
 
 private:
+    Resource* resource_;
+
 };
