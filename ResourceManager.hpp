@@ -29,3 +29,4 @@ public:
 private:
     std::unique_ptr<Resource> resource_;
 };
+
